@@ -25,3 +25,8 @@ We use [testthat](https://testthat.r-lib.org/) in R. Contributions with test cas
 ## Code of conduct
 
 All contributors must abide by our [code of conduct](Code_of_conduct.md).
+
+
+## Attributions
+
+Adapted from contributing documents of [dplyr](https://github.com/tidyverse/dplyr/blob/master/.github/CONTRIBUTING.md)
