@@ -24,7 +24,7 @@ We use [testthat](https://testthat.r-lib.org/) in R. Contributions with test cas
 
 ## Code of conduct
 
-All contributors must abide by our [code of conduct](Code_of_conduct.md).
+All contributors must abide by our [code of conduct](CODE_OF_CONDUCT.md).
 
 
 ## Attributions
