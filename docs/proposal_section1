@@ -1,0 +1,7 @@
+Our role: UBC data scientist team
+
+Target audience: Public Communication
+
+In the past, there have been a lot of studies undertaken to increase human life expectancy including factors of demographic variables, income composition, and
+mortality rates. It has been one of the wonders of the last century. However, it was found that the effect of immunization and human development index was not taken into consideration. If we could understand factors related to immunization and the human development index, it may be possible for a human to have a much longer life expectancy. To address this challenge, we propose building a data visualization app that allows the public to visually explore a dataset of life expectancy together with variables including immunization factors, mortality factors, economic factors, social factors, and other health related factors. Our app will show the distribution of factors contributing to life expectancy. Not only that, users are allowed to explore different aspects of this data by filtering and re-ordering on different variables to compare factors that contribute to absence. 
+
