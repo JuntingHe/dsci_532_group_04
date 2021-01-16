@@ -9,7 +9,7 @@ MDS DSCI 523 Group 04
 -   [Section 3: Usage scenarios](#section-3-usage-scenarios)
 -   [Reference](#reference)
 
-# Section 1: Motivation and Purpose
+## Section 1: Motivation and Purpose
 
 Our role: UBC data scientist team
 
@@ -36,7 +36,7 @@ that, users are allowed to explore different aspects of this data by
 slicing and dicing on different variables to compare factors that
 contribute to absence.
 
-# Section 2: Description of the data
+## Section 2: Description of the data
 
 The dataset we will be visualizing consists of 2938 observations for 193
 countries from year 2000 - 2015, which represent immunization related
@@ -48,7 +48,7 @@ given year. We will draw a visualization map that shows how each factors
 influence the life expectancy of the country’s population and hopefully
 could provide some insights to policymakers.
 
-# Section 3: Usage scenarios
+## Section 3: Usage scenarios
 
 Angie is a manager of a newly formed special division in United Nations,
 responsible for tracking life expectancy across the world, advising
@@ -79,7 +79,7 @@ dashboard. The dashboard should enable users to perform
 multi-dimensional analysis to understand factors affecting life
 expectancy.
 
-# Reference
+## Reference
 
 -   [Life Expectancy
     dataset](https://www.kaggle.com/kumarajarshi/life-expectancy-who)
