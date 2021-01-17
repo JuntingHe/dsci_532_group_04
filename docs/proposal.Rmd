@@ -28,6 +28,13 @@ As part of the first milestone, Angie wants to have a dashboard for tracking ave
 
 Angie's team reached out to the data scientists team of MDS DSCI 532 group 4 to build the initial version of the dashboard using publicly available data from the last 15 years. Angie is hoping that the users should be able to filter the dashboard based on year, multiple continents, and countries. The dashboard should communicate the key performance indicators and other indicators to the audience in a visible way. Additionally, the users should be able to visualize the trend of life expectancy by year based on the continent, country, and status on the dashboard. The dashboard should enable users to perform multi-dimensional analysis to understand factors affecting life expectancy. 
 
+
+## Section 4: Sketch of the App
+
+```{r Sketch Diagram of the App, echo = FALSE}
+knitr::include_graphics("../figures/labelled_sketch.png")
+```
+
 ## Reference
 
 - [Life Expectancy dataset](https://www.kaggle.com/kumarajarshi/life-expectancy-who)
