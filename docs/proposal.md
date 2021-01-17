@@ -7,6 +7,7 @@ MDS DSCI 523 Group 04
 -   [Section 2: Description of the
     data](#section-2-description-of-the-data)
 -   [Section 3: Usage scenarios](#section-3-usage-scenarios)
+-   [Section 4: Sketch of the App](#section-4-sketch-of-the-app)
 -   [Reference](#reference)
 
 ## Section 1: Motivation and Purpose
@@ -77,6 +78,10 @@ life expectancy by year based on the continent, country, and status on
 the dashboard. The dashboard should enable users to perform
 multi-dimensional analysis to understand factors affecting life
 expectancy.
+
+## Section 4: Sketch of the App
+
+<img src="../figures/labelled_sketch.png" width="6526" />
 
 ## Reference
 

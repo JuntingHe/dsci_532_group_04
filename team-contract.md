@@ -26,7 +26,7 @@ For the next several weeks, we will participate effectively in this group and st
 
 - Data analysis and visualization: All members
 
-- Reports writing:  
+- Reports writing: All members
 
 - Results review: All members
 
