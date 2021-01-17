@@ -29,53 +29,52 @@ expectancy.
 To address this challenge, we propose building a data visualization app
 that allows the public to visually explore a dataset of life expectancy
 together with variables including immunization factors, mortality
-factors, economic factors, social factors, and other health related
-factors. Our app will show the trend of the life expectancy over a
-period of year, and the influence of each contributing factors. Not only
-that, users are allowed to explore different aspects of this data by
-slicing and dicing on different variables to compare factors that
-contribute to absence.
+factors, economic factors, social factors, and other health-related
+factors. Our app will show the trend of life expectancy over years, and
+the influence of each contributing factor. Not only that, users are
+allowed to explore different aspects of this data by slicing and dicing
+on different variables to compare factors that contribute to absence.
 
 ## Section 2: Description of the data
 
 The dataset we will be visualizing consists of 2938 observations for 193
-countries from year 2000 - 2015, which represent immunization related
-factors (`Hepatitis B`, `Polio` and `Diphtheria`), mortality factors
-(`Adult Mortality` and `Infant Death`), economical factors (`Status`,
-`Total Expenditure` and `GDP`) and social factors (`Population` and
-`Schooling`) that contribute to the life expectancy of a country in a
-given year. We will draw a visualization map that shows how each factors
-influence the life expectancy of the country’s population and hopefully
-could provide some insights to policymakers.
+countries from the year 2000 - 2015, which represent immunization
+related factors (`Hepatitis B`, `Polio` and `Diphtheria`), mortality
+factors (`Adult Mortality` and `Infant Death`), economical factors
+(`Status`, `Total Expenditure` and `GDP`) and social factors
+(`Population` and `Schooling`) that contribute to the life expectancy of
+a country in a given year. We will draw a visualization map that shows
+how each factor influence the life expectancy of the country’s
+population and hopefully could provide some insights to policymakers.
 
 ## Section 3: Usage scenarios
 
-Angie is a manager of a newly formed special division in United Nations,
-responsible for tracking life expectancy across the world, advising
-policymakers who are responsible for making decisions about
+Angie is a manager of a newly formed special division in the United
+Nations, responsible for tracking life expectancy across the world,
+advising policymakers who are responsible for making decisions about
 administrative and financial aides and creating public awareness about
-life expectancy in developing countries and its contribution factors.
+life expectancy in developing countries and its contributing factors.
 Angie and most of her team members are very passionate about how to
-improve quality of life around the world and dedicated good part of
-their life to help people living in questionable conditions.
+improve the quality of life around the world and dedicated a good part
+of their life to help people living in questionable conditions.
 
 As part of the first milestone, Angie wants to have a dashboard for
 tracking average life expectancy which can be used by her team, the
-policy makers in UN and general public to understand how life expectancy
-has changed over time and the factors affecting it. Based on this
-dashboard, Angie’s team will report how life expectancy has changed over
-time in every corner of the world and whether the steps taken by UN in
-last 15 years are making a difference.
+policymakers in the UN, and the general public to understand how life
+expectancy has changed over time and the factors affecting it. Based on
+this dashboard, Angie’s team will report how life expectancy has changed
+over time in every corner of the world and whether the steps taken by
+the UN in the last 15 years are making a difference.
 
 Angie’s team reached out to the data scientists team of MDS DSCI 532
 group 4 to build the initial version of the dashboard using publicly
-available data from last 15 years. Angie is hoping that the users should
-be able to filter the dashboard based on year, multiple continents and
-countries. The dashboard should clearly communicate the key performance
-indicators and other indicators to the audience in a visible way.
-Additionally, the users should be able to visualize the trend of life
-expectancy by year based on continent, country and status on the
-dashboard. The dashboard should enable users to perform
+available data from the last 15 years. Angie is hoping that the users
+should be able to filter the dashboard based on year, multiple
+continents, and countries. The dashboard should communicate the key
+performance indicators and other indicators to the audience in a visible
+way. Additionally, the users should be able to visualize the trend of
+life expectancy by year based on the continent, country, and status on
+the dashboard. The dashboard should enable users to perform
 multi-dimensional analysis to understand factors affecting life
 expectancy.
 
