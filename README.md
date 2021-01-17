@@ -19,6 +19,9 @@ by continents and country status. The life expectancy trend graph at the
 bottom right corner would allow users to compare the average life
 expectancy of a specific country against its continent and the world.
 
+The proposal document could be found
+[here](https://github.com/UBC-MDS/dsci_532_group_04/blob/main/docs/proposal.md).
+
 ## App Sketch
 
 <img src="figures/labelled_sketch.png" width="6526" />
