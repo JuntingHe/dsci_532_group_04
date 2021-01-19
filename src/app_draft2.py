@@ -12,19 +12,25 @@ import dash_bootstrap_components as dbc
 dataset_df = pd.read_csv("../data/processed/life_expectancy_data_processed.csv")
 
 # Setup app and layout/frontend
-app = dash.Dash(__name__,  
-    external_stylesheets=['https://codepen.io/chriddyp/pen/bWLwgP.css'])
-app.layout = html.Div(['Country vs Continent vs Worldwide',
-    html.Label(['Select a country:',
-        dcc.Dropdown(
-        id='country-l-widget',
-        value='Canada',  # REQUIRED to show the plot on the first page load
-        options=[{'label': country, 'value': country} for country in dataset_df.country.unique()],
-        )])
-    ,
-    html.Iframe(
+app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
+app.layout = dbc.Container([
+    html.H2('Country vs Continent vs Worldwide'),
+    dbc.Row(
+        [
+        dbc.Col(html.Div('Select a country:'),md=2),
+        dbc.Col( 
+            dcc.Dropdown(
+                id='country-l-widget',
+                value='Canada',  # REQUIRED to show the plot on the first page load
+                options=[{'label': country, 'value': country} for country in dataset_df.country.unique()]),
+            md=2)
+        ],
+        no_gutters=True,
+        ),
+    dbc.Row(
+        html.Iframe(
         id='comparison_trend',
-        style={'border-width': '0', 'width': '100vw', 'height': '100vh'})
+        style={'border-width': '0', 'width': '100vw', 'height': '100vh'}),)
     ])
 
 # Set up callbacks/backend
