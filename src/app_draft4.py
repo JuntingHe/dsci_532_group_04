@@ -72,12 +72,18 @@ content = dbc.Container([
     html.H2('Country vs Continent vs Worldwide'),
     dbc.Row(
         [
-        dbc.Col(html.Div('Select a country:'),md=2),
+        dbc.Col(html.H5('Select a country:'),md=2, style={'verticalAlign':"middle"}),
         dbc.Col( 
             dcc.Dropdown(
                 id='country-l-widget',
                 value='Canada',  # REQUIRED to show the plot on the first page load
-                options=[{'label': country, 'value': country} for country in dataset_df.country.unique()]),
+                options=[{'label': country, 'value': country} for country in dataset_df.country.unique()],
+                clearable=False,
+                searchable=True,
+                style={'verticalAlign':"middle",
+                       'shape':'circle',
+                       'border-radius':'36px',
+                       'background-color':'#E8E8E8'}),
             md=2)
         ],
         no_gutters=True,
