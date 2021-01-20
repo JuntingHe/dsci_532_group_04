@@ -36,9 +36,9 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Life", className="display-4"),
-        html.H2("Expectancy", className="display-4"),
-        html.H2("Indicator", className="display-4"),
+        html.H2("Life", className="display-6"),
+        html.H2("Expectancy", className="display-6"),
+        html.H2("Indicator", className="display-6"),
         html.Hr(),
         # html.P(
         #     "A simple sidebar layout with navigation links", className="lead"
@@ -54,8 +54,9 @@ sidebar = html.Div(
                         max=2015,
                         step=1,
                         value=[2000, 2015],
-                        marks={i: str(i) for i in range(2000, 2016, 5)},
-                        tooltip={'always_visible':False, 'placement':'bottom'},
+                        #marks={i: str(i) for i in range(2000, 2016, 5)},
+                        tooltip={'always_visible':True, 'placement':'bottom'},
+                        
                     ),
                 ]
             ),
