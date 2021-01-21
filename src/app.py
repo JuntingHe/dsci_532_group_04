@@ -8,7 +8,7 @@ import pandas as pd
 import dash_bootstrap_components as dbc
 
 # Read in global data
-dataset_df = pd.read_csv("../data/processed/life_expectancy_data_processed.csv")
+dataset_df = pd.read_csv("data/processed/life_expectancy_data_processed.csv")
 
 # Setup app and layout/frontend
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
