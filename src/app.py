@@ -69,10 +69,16 @@ sidebar = html.Div(
 )
 
 content = dbc.Container([
-    html.H2('Country vs Continent vs Worldwide'),
+    html.H2('Country vs Continent vs Worldwide', 
+            style={'background-color':'#E8E8E8', 'verticalAlign':"middle",'font-weight':'900'},
+            className="cursive",
+            
+                                            ),
     dbc.Row(
         [
-        dbc.Col(html.H5('Select a country:'),md=2, style={'verticalAlign':"middle"}),
+        dbc.Col(html.H5('Select a country:'),
+                md=2, 
+                style={'verticalAlign':"bottom",}),
         dbc.Col( 
             dcc.Dropdown(
                 id='country-l-widget',
@@ -126,8 +132,8 @@ def plot_altair(country, value):
         ].assign(label=chosen_country),],
         ignore_index=True,)
     chart_comparison = alt.Chart(temp[(temp["year"] <= chosen_ending_year) & (temp["year"] >= chosen_starting_year)]).mark_line().encode(
-        x=alt.X("year", title = "Year"),
-        y=alt.Y("life_expectancy", title = "Life Expectancy", scale= alt.Scale(zero = False)),
+        x=alt.X("year:N", title = "Year"),
+        y=alt.Y("mean(life_expectancy)", title = "Life Expectancy", scale= alt.Scale(zero = False)),
         color=alt.Color("label", title = None)
     ).configure_axis(
         labelFontSize=16,
