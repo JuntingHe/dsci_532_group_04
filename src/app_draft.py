@@ -21,7 +21,7 @@ SIDEBAR_STYLE = {
     "top": 0,
     "left": 0,
     "bottom": 0,
-    "width": "18rem",
+    "width": "12rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
 }
@@ -29,8 +29,7 @@ SIDEBAR_STYLE = {
 # the styles for the main content position it to the right of the sidebar and
 # add some padding.
 CONTENT_STYLE = {
-    "position": "fixed",
-    "margin-left": "18rem",
+    "margin-left": "12rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 }
@@ -48,15 +47,17 @@ sidebar = html.Div(
             [
                  dbc.FormGroup(
                 [
-                    dbc.Label("Choose for Year"),
+                    dbc.Label("Year Range"),
                     dcc.RangeSlider(
                         id="widget_g_year",
                         min=2000,
                         max=2015,
                         step=1,
                         value=[2000, 2015],
-                        #marks={i: str(i) for i in range(2000, 2016, 5)},
-                        tooltip={'always_visible':True, 'placement':'bottom'},
+                        marks={i: str(i) for i in range(2000, 2016, 15)},
+                        tooltip={'always_visible':False, 'placement':'bottom',},
+                        #vertical=True,
+                        #getTooltipPopupContainer={() => document.querySelector(".ant-slider-step")},
                         
                     ),
                 ]
@@ -71,38 +72,201 @@ sidebar = html.Div(
 
 content = dbc.Container([
     dbc.Row([
-        dbc.Col([
-            html.H2('Country vs Continent vs Worldwide', 
-                    style={'background-color':'#E8E8E8', 'verticalAlign':"middle",'font-weight':'900'},
+        dbc.Col(),
+        dbc.Col([html.H5('Year-wise Trend', 
+                    style={'background-color':'#E8E8E8', 'font-weight':'900', 'display': "flex", 'justify-content': "center",
+                            'align-items': "center", 'width': 180, 'height': 50, 'text-align':"center",},
+                    dir="Right-To-Left",
                     className="cursive",),
                     dbc.Row([
-                        dbc.Col(html.H5('Select a country:'),
-                                md=4, 
-                                style={'verticalAlign':"bottom",}),
-                                dbc.Col(dcc.Dropdown(
-                                                    id='country-l-widget',
-                                                    value='Canada',  # REQUIRED to show the plot on the first page load
-                                                    options=[{'label': country, 'value': country} for country in dataset_df.country.unique()],
-                                                    clearable=False,
-                                                    searchable=True,
-                                                    style={'verticalAlign':"middle",
-                                                            'shape':'circle',
-                                                            'border-radius':'36px',
-                                                            'background-color':'#E8E8E8'}),
-                                                    md=6)
-                            ]),
-                            dbc.Row(html.Iframe(
-                                id='comparison_trend',
-                                style={'border-width': '0', 'width': '100vw', 'height': '100vh'}),)
-        ], md = 6),
-        dbc.Col(html.H2('Country vs Continent vs Worldwide', 
-                    style={'background-color':'#E8E8E8', 'verticalAlign':"middle",'font-weight':'900'},
-                    className="cursive",),
+                        dbc.Col(
+                                html.P('Select Continents:',
+                                        className="cursive",
+                                ),
+                                style={'verticalAlign':"bottom",
+                                        'font-weight': 'bold',
+                                         'font-size': '14px',
+                                },
+                                ),
+                        dbc.Col( 
+                                dcc.Dropdown(
+                                            id='widget_l_continent',
+                                            #value='Canada',  # REQUIRED to show the plot on the first page load
+                                            options=[{'label': c, 'value': c} for c in dataset_df.continent.unique()],
+                                            clearable=True,
+                                            searchable=True,
+                                            style={
+                                                    'verticalAlign':"middle",
+                                                    'shape':'circle',
+                                                    'border-radius':'36px',
+                                                    'background-color':'#E8E8E8',
+                                                    'display':'inline-block',
+                                                    'width':150,
+                                                    },
+                                            multi=True
+                                            ),
+                                style={"margin-left":"0.5em"}
+                                    ),
+                        dbc.Col(
+                                html.P('Select Color Axis:',
+                                        className="cursive",
+                                ),
+                                style={'verticalAlign':"bottom",
+                                       'font-weight': 'bold',
+                                       'font-size': '14px',
+                                       'margin-left':"0.5em",
+                                },
+                                ),
+                        dbc.Col(
+                                dcc.RadioItems(
+                                                id='widget_l_color_axis',
+                                                options=[
+                                                        {'label': "Continent", 'value': "continent"},
+                                                        {'label': "Status", 'value': "status"},
+                                                        ],
+                                                value='continent',
+                                                labelStyle={'display': 'inline-block',
+                                                            'margin-left':"0.5em",
+                                                }
+                                            ))
+                    ], no_gutters=True,),
+                    dbc.Row(
+                        html.Iframe(
+                                    id="widget_o_year_wise_trend",
+                                    style={'border-width': '0', 'width': '100%', "height":"425px"}
+                                    )
+                            )
+                    ],
                     md = 6),
     ]),
     dbc.Row([
-        dbc.Col(),
-        dbc.Col(),
+        dbc.Col([
+            html.H5(
+                    'Effect', 
+                    style={'background-color':'#E8E8E8', 'font-weight':'900', 'width':70, 'display': "flex", 'justify-content': "center",
+                            'align-items': "center", 'height': 50, 'text-align':"center",},
+                    className="cursive"
+                    ),
+            dbc.Row([
+                dbc.Col(
+                        html.P('Select X-Axis:',
+                                className="cursive",
+                                ),
+                        style={'verticalAlign':"bottom",
+                                'font-weight': 'bold',
+                                'font-size': '14px',
+                                },                
+                ),
+                dbc.Col(
+                    dcc.Dropdown(
+                        id='widget_l_multi_dim_x_axis',
+                        options=[
+                            {'label': "Adult Mortality", 'value': "adult_mortality"},
+                            {'label': "Infant Deaths", 'value': "infant_deaths"},
+                            {'label': "Alcohol Consumption", 'value': "alcohol"},
+                            {'label': "percentage_expenditure", 'value': "percentage_expenditure"},
+                            {'label': "hepatitis_B", 'value': "hepatitis_B"},
+                            {'label': "measles", 'value': "measles"},
+                            {'label': "BMI", 'value': "BMI"},
+                            {'label': "under_five_deaths", 'value': "under_five_deaths"},
+                            {'label': "polio", 'value': "polio"},
+                            {'label': "total_expenditure", 'value': "total_expenditure"},
+                            {'label': "diphtheria", 'value': "diphtheria"},
+                            {'label': "hiv_aids", 'value': "hiv_aids"},
+                            {'label': "gdp", 'value': "gdp"},
+                            {'label': "population", 'value': "population"},
+                            {'label': "schooling", 'value': "schooling"},
+
+                        ],
+                        value='adult_mortality',
+                        clearable=False,
+                        style={
+                            'verticalAlign':"middle",
+                            'shape':'circle',
+                            'border-radius':'36px',
+                            'background-color':'#E8E8E8',
+                            'display':'inline-block',
+                            'width':150,
+                        },
+                    ),
+                    style={"margin-left":"0.5em"},
+                ),
+                dbc.Col(
+                        html.P('Select Color Axis:',
+                                className="cursive",
+                                ),
+                        style={'verticalAlign':"bottom",
+                                'font-weight': 'bold',
+                                'font-size': '14px',
+                                'margin-left':'0.5em',
+                                },
+                ),
+                dbc.Col(
+                    dcc.Dropdown(
+                        id='widget_l_multi_dim_color_axis',
+                        options=[
+                            {'label': "Continent", 'value': "continent"},
+                            {'label': "Status", 'value': "status"},
+                        ],
+                        value='continent',
+                        clearable=False,
+                        style={
+                            'verticalAlign':"middle",
+                            'shape':'circle',
+                            'border-radius':'36px',
+                            'background-color':'#E8E8E8',
+                            'display':'inline-block',
+                            'width':150,
+                        },
+                    ),
+                    style={"margin-left":"0.5em"},
+                )
+            ], no_gutters=True,),
+            dbc.Row([
+                html.Iframe(
+                            id="widget_o_multi_dim_analysis",
+                            style={'border-width': '0', 'width': '100%', "height":"425px"}
+                )
+            ])
+
+        ]),
+        dbc.Col([
+            html.H5('Country vs Continent vs Worldwide', 
+                    style={'background-color':'#E8E8E8', 'font-weight':'900', 'width':365, 'display': "flex", 'justify-content': "center",
+                            'align-items': "center", 'height': 50, 'text-align':"center",},
+                    className="cursive",),
+                    dbc.Row([
+                        dbc.Col(
+                                html.P('Select a Country:',
+                                        className="cursive",
+                                ),
+                                style={'verticalAlign':"bottom",
+                                       'font-weight': 'bold',
+                                        'font-size': '14px',
+                                }, 
+                                ),
+                        dbc.Col(
+                            dcc.Dropdown(
+                                        id='country-l-widget',
+                                        value='Canada',  # REQUIRED to show the plot on the first page load
+                                        options=[{'label': country, 'value': country} for country in dataset_df.country.unique()],
+                                        clearable=False,
+                                        searchable=True,
+                                        style={'verticalAlign':"middle",
+                                                'shape':'circle',
+                                                'border-radius':'36px',
+                                                'background-color':'#E8E8E8',
+                                                'display':'inline-block',
+                                                'width':250,
+                                                }),
+                                style={'margin-left':"1em"},                
+                                ),
+                            ], no_gutters=True,
+                            ),
+                            dbc.Row(html.Iframe(
+                                id='comparison_trend',
+                                style={'border-width': '0', 'width': '100vw', 'height': '100vh'}),)
+        ], md=6),
     ])
     ], style=CONTENT_STYLE)
 
@@ -138,15 +302,82 @@ def plot_altair(country, value):
         ].assign(label=chosen_country),],
         ignore_index=True,)
     chart_comparison = alt.Chart(temp[(temp["year"] <= chosen_ending_year) & (temp["year"] >= chosen_starting_year)]).mark_line().encode(
-        x=alt.X("year:N", title = "Year"),
+        x=alt.X("year:N", axis=alt.Axis(labelAngle=45), title = "Year"),
         y=alt.Y("mean(life_expectancy)", title = "Life Expectancy", scale= alt.Scale(zero = False)),
         color=alt.Color("label", title = None)
-    ).configure_axis(
-        labelFontSize=16,
-        titleFontSize=20,
-    ).configure_legend(
-        labelFontSize=16)
+    ).properties(
+            width=350
+        ).configure_axis(
+            labelFontSize=10,
+            titleFontSize=12,
+        ).configure_legend(
+            labelFontSize=10
+        )
     return chart_comparison.to_html()
+
+# Year-wise trend graph
+@app.callback(
+    Output('widget_o_year_wise_trend', 'srcDoc'),
+    Input('widget_g_year', 'value'),
+    Input('widget_l_continent', 'value'),
+    Input("widget_l_color_axis", "value")
+)
+def plot_year_wise_trend(year_range, continent, color_axis):
+    chosen_starting_year = year_range[0]
+    chosen_ending_year = year_range[1]
+    temp_df = dataset_df[(dataset_df["year"] <= chosen_ending_year) & (dataset_df["year"] >= chosen_starting_year)]
+
+    if continent is None or continent=="" or len(continent)==0:
+        continent = dataset_df.continent.unique().tolist()
+    
+    temp_df = temp_df[temp_df["continent"].isin(continent)]
+    year_wise_trend_chart = (
+        alt.Chart(
+            temp_df.groupby([color_axis, "year"])
+            .mean()["life_expectancy"]
+            .reset_index()
+        )
+        .mark_line()
+        .encode(
+            alt.X("year:N", axis=alt.Axis(labelAngle=45), title="Year"),
+            y=alt.Y("mean(life_expectancy)", scale=alt.Scale(zero=False), title="Mean Life Expectancy"),
+            color=alt.Color(color_axis, title = None)
+        ).properties(
+            width=350
+        ).configure_axis(
+            labelFontSize=10,
+            titleFontSize=12,
+        ).configure_legend(
+            labelFontSize=10
+        )
+    )
+    return year_wise_trend_chart.to_html()
+
+@app.callback(
+    Output('widget_o_multi_dim_analysis', 'srcDoc'),
+    Input('widget_g_year', 'value'),
+    Input('widget_l_multi_dim_x_axis', 'value'),
+    Input('widget_l_multi_dim_color_axis', 'value')
+)
+def plot_multi_dim_analysis(year_range, x_axis, color_axis):
+    chosen_ending_year = year_range[1]
+    plot_multi_dim = alt.Chart(
+        dataset_df[dataset_df["year"] == chosen_ending_year]
+    ).mark_circle(size=100).encode(
+        x=alt.X(x_axis),
+        y=alt.Y("life_expectancy", title="Life Expectancy", scale=alt.Scale(zero=False)),
+        color=alt.Color(color_axis, title = None),
+        #size=alt.Value("5"),
+        tooltip=["country"],
+    ).properties(
+            width=350
+        ).configure_axis(
+            labelFontSize=10,
+            titleFontSize=12,
+        ).configure_legend(
+            labelFontSize=10
+        )
+    return plot_multi_dim.to_html()
 
 
     
