@@ -29,7 +29,7 @@ SIDEBAR_STYLE = {
 # the styles for the main content position it to the right of the sidebar and
 # add some padding.
 CONTENT_STYLE = {
-    "margin-left": "12rem",
+    "margin-left": "5rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 }
@@ -74,11 +74,12 @@ content = dbc.Container([
     dbc.Row([
         dbc.Col(html.Iframe(id='map_graph',
                             style={"height":"450px", "width":"100%", "display":'flex', 'scrolling':'no', 
-                                    'overflow':'hidden',"seamless":"seamless"},
-                            width=500
+                                    'overflow':'hidden',"seamless":"seamless", 'border-width': '0',
+                                    "padding-right": "15px", "padding-left": "15px"},
+                            width=500,
                             ),
                 style={'width': '100%', 'border-width': '0', 'overflow':'hidden', "display":'flex', 'scrolling':'no', 
-                        'background-color':'#E8E8E8'},
+                        },
                 md=7, 
                 ),
         dbc.Col([html.H5('Year-wise Trend', 
@@ -145,7 +146,7 @@ content = dbc.Container([
                                     )
                             )
                     ],
-                    md = 5, style={'background-color':'#E8E8E8'}),
+                    md = 5, ),
     ]),
     html.Br(),
     dbc.Row([
@@ -238,7 +239,7 @@ content = dbc.Container([
                 )
             ])
 
-        ], style={'background-color':'#E8E8E8'}),
+        ], ),
         dbc.Col([
             html.H5('Country vs Continent vs Worldwide', 
                     style={'background-color':'#E8E8E8', 'font-weight':'900', 'width':365, 'display': "flex", 'justify-content': "center",
@@ -275,11 +276,11 @@ content = dbc.Container([
                             dbc.Row(html.Iframe(
                                 id='comparison_trend',
                                 style={'border-width': '0', 'width': '100vw', 'height': '100vh'}),)
-        ], md=6, style={'background-color':'#E8E8E8'}),
+        ], md=6, ),
     ])
     ], style=CONTENT_STYLE,)
 
-app.layout = html.Div([sidebar, content])
+app.layout = dbc.Container([sidebar, content])
 
 # Set up callbacks/backend
 @app.callback(
@@ -407,7 +408,7 @@ def plot_worldmap(year_range):
     map_click = alt.selection_multi()
     chart = (
         alt.Chart(world_map)
-        .mark_geoshape()
+        .mark_geoshape(xOffset=2)
         .transform_lookup(
             lookup="id", from_=alt.LookupData(df1, "id", ["life_expectancy", "country"])
         )
@@ -417,7 +418,10 @@ def plot_worldmap(year_range):
             opacity=alt.condition(map_click, alt.value(1), alt.value(0.2)),
         )
         .add_selection(map_click)
-        .project("equalEarth", scale=90)
+        .project("equalEarth", scale=120).properties(
+            width = 600,
+            height = 400,
+        )
     )
     return chart.to_html()
     
