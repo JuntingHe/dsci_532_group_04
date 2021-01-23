@@ -73,14 +73,14 @@ sidebar = html.Div(
 content = dbc.Container([
     dbc.Row([
         dbc.Col(html.Iframe(id='map_graph',
-                            style={"height":"450px", "width":"100%", "display":'flex', 'scrolling':'no', 
+                            style={"height":"545px", "width":"100%", "display":'flex', 'scrolling':'no', 
                                     'overflow':'hidden',"seamless":"seamless", 'border-width': '0',
                                     "padding-right": "15px", "padding-left": "15px"},
                             width=500,
                             ),
-                style={'width': '100%', 'border-width': '0', 'overflow':'hidden', "display":'flex', 'scrolling':'no', 
+                style={'width': '100%', 'border-width': '0',
                         },
-                md=7, 
+                md=7, align="middle",
                 ),
         dbc.Col([html.H5('Year-wise Trend', 
                     style={'background-color':'#E8E8E8', 'font-weight':'900', 'display': "flex", 'justify-content': "center",
@@ -134,20 +134,20 @@ content = dbc.Container([
                                                         {'label': "Status", 'value': "status"},
                                                         ],
                                                 value='continent',
-                                                labelStyle={'display': 'inline-block',
-                                                            'margin-left':"0.5em",
+                                                labelStyle={'margin-left':"0.5em",
                                                 }
                                             ))
                     ], no_gutters=True, ),
                     dbc.Row(
                         html.Iframe(
                                     id="widget_o_year_wise_trend",
-                                    style={'border-width': '0', 'width': '100%', "height":"425px"}
+                                    style={'border-width': '0', 'width': '100%', "height":"400px"}
                                     )
                             )
                     ],
                     md = 5, ),
     ]),
+    html.Br(),
     html.Br(),
     dbc.Row([
         dbc.Col([
@@ -414,13 +414,13 @@ def plot_worldmap(year_range):
         )
         .encode(
             tooltip=["country:N", "life_expectancy:Q"],
-            color="life_expectancy:Q",
+            color=alt.Color("life_expectancy:Q", legend = None),
             opacity=alt.condition(map_click, alt.value(1), alt.value(0.2)),
         )
         .add_selection(map_click)
         .project("equalEarth", scale=120).properties(
             width = 600,
-            height = 400,
+            height = 500,
         )
     )
     return chart.to_html()
