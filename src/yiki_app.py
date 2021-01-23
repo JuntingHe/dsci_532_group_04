@@ -37,17 +37,18 @@ card = dbc.Card(
         ),
         # dbc.CardFooter("This is the footer"),
     ],
-    style={"width": "18rem"},
+    style={"width": "18rem", 'background-color':'#f8f9fa',},
 )
 
 
 world_map = dbc.Card([
+    dbc.CardHeader("Life Expectancy Snapshot", className="cursive", style={'font-weight':'900'}),
     dbc.CardBody([html.Iframe(id='map_graph', width = 800, height = 500, sandbox='allow-scripts', style={'border-width': '0px'})])
 ]) 
 
 widget_style = {'verticalAlign':"bottom",'font-weight': 'bold','font-size': '14px',}
 dropdown_style = {'verticalAlign':"middle", 'shape':'circle', 'border-radius':'36px',
-'background-color':'#E8E8E8', 'display':'inline-block', 'width':200,}
+'background-color':'#E8E8E8', 'display':'inline-block', 'width':"100%",}
 
 continent_widget = html.P('Select Continents:', className="card-text", style=widget_style)
 continent_dropdown = dcc.Dropdown(id='widget_l_continent',
@@ -70,14 +71,12 @@ status_dropdown = dcc.RadioItems(id='widget_l_color_axis',
 trend_card = dbc.Card([
     dbc.CardHeader("Year-wise Trend", className="cursive",style={'font-weight':'900'}),
     dbc.CardBody([
-            continent_widget,
-            dbc.Row(continent_dropdown),
+            dbc.Row([dbc.Col(continent_widget), dbc.Col(continent_dropdown)]),
             html.Br(),
-            status_widget,
-            dbc.Row(status_dropdown),
+            dbc.Row([dbc.Col(status_widget), dbc.Col(status_dropdown)]),
             html.Iframe(id="widget_o_year_wise_trend", width = 500, height = 500, style={'border-width': '0',})
         ]),
-    ],style={"width":550, "height":650},)
+    ],style={"width":550, "height":580},)
 
 country_widget = html.P('Select a Country:', className="card-text", style=widget_style)
 country_dropdown = dcc.Dropdown(id='country-l-widget',
@@ -90,12 +89,12 @@ country_dropdown = dcc.Dropdown(id='country-l-widget',
 comparison_card = dbc.Card([
     dbc.CardHeader("Country vs Continent vs Worldwide", className="cursive",style={'font-weight':'900'}),
     dbc.CardBody([
-            country_widget,
-            dbc.Row(country_dropdown),
+            dbc.Row([dbc.Col(country_widget), dbc.Col(country_dropdown)]),
+            html.Br(),
             html.Br(),
             html.Iframe(id="comparison_trend", width = 500, height = 500, style={'border-width': '0',})
         ]),
-    ],style={"width":550, "height":650},)
+    ],style={"width":550, "height":580},)
 
 axis_widget = html.P('Select X-Axis:', className="card-text", style=widget_style)
 axis_dropdown = dcc.Dropdown(id='widget_l_multi_dim_x_axis',
@@ -128,11 +127,9 @@ color_dropdown = dcc.Dropdown(id='widget_l_multi_dim_color_axis',
     )
 
 effect_card = dbc.Card([
-    dbc.CardHeader("Effect", className="cursive",style={'font-weight':'900'}),
+    dbc.CardHeader("Influence of Other Factors", className="cursive",style={'font-weight':'900'}),
     dbc.CardBody([
-            dbc.Row([
-                dbc.Col([dbc.Row(axis_widget), dbc.Row(axis_dropdown)]),
-                dbc.Col([dbc.Row(color_widget), dbc.Row(color_dropdown)]),]),
+            dbc.Row([dbc.Col(axis_widget), dbc.Col(axis_dropdown), dbc.Col(color_widget), dbc.Col(color_dropdown),]),
             html.Br(),
             html.Iframe(id="widget_o_multi_dim_analysis", width = 1000, height = 500, style={'border-width': '0',})
         ]),
@@ -206,16 +203,16 @@ def plot_year_wise_trend(year_range, continent, color_axis):
         )
         .mark_line()
         .encode(
-            alt.X("year:N", axis=alt.Axis(labelAngle=45), title="Year"),
+            alt.X("year:N", axis=alt.Axis(labelAngle=360), title="Year"),
             y=alt.Y("mean(life_expectancy)", scale=alt.Scale(zero=False), title="Mean Life Expectancy"),
-            color=alt.Color(color_axis, title = None, )
+            color=alt.Color(color_axis, title = None, legend=alt.Legend(orient='bottom'))
         ).configure_axis(
             labelFontSize=10,
-            titleFontSize=12,
+            titleFontSize=14,
         ).configure_legend(
-            labelFontSize=10
+            labelFontSize=12,
         ).properties(
-            width=300
+            width=400
         )
     )
     return year_wise_trend_chart.to_html()
@@ -249,16 +246,16 @@ def plot_altair(country, value):
         ].assign(label=chosen_country),],
         ignore_index=True,)
     chart_comparison = alt.Chart(temp[(temp["year"] <= chosen_ending_year) & (temp["year"] >= chosen_starting_year)]).mark_line().encode(
-        x=alt.X("year:N", axis=alt.Axis(labelAngle=45), title = "Year"),
+        x=alt.X("year:N", axis=alt.Axis(labelAngle=360), title = "Year"),
         y=alt.Y("mean(life_expectancy)", title = "Life Expectancy", scale= alt.Scale(zero = False)),
-        color=alt.Color("label", title = None, legend=alt.Legend(orient="top"))
+        color=alt.Color("label", title = None, legend=alt.Legend(orient="bottom"))
     ).properties(
-            width=350
+            width=400
         ).configure_axis(
             labelFontSize=10,
-            titleFontSize=12,
+            titleFontSize=14,
         ).configure_legend(
-            labelFontSize=10
+            labelFontSize=12
         )
     return chart_comparison.to_html()
 
@@ -269,23 +266,42 @@ def plot_altair(country, value):
     Input('widget_l_multi_dim_color_axis', 'value')
 )
 def plot_multi_dim_analysis(year_range, x_axis, color_axis):
+    labels = {
+        "adult_mortality": "Adult Mortality",
+        "infant_deaths": "Infant Deaths",
+        "alcohol": "Alcohol Consumption",
+        "percentage_expenditure": "Expenditure (%)",
+        "hepatitis_B": "Hepatitis B",
+        "measles": "Measles",
+        "BMI": "BMI",
+        "under_five_deaths": "Deaths (below 5 yrs)",
+        "polio": "Polio",
+        "total_expenditure": "Total Expenditure",
+        "diphtheria": "Diphtheria",
+        "hiv_aids": "HIV/Aids",
+        "gdp": "GDP",
+        "population": "Population",
+        "schooling": "Schooling"
+    }
+
     chosen_ending_year = year_range[1]
     plot_multi_dim = alt.Chart(
         dataset_df[dataset_df["year"] == chosen_ending_year]
     ).mark_circle(size=150).encode(
-        x=alt.X(x_axis),
+        x=alt.X(x_axis, title=labels[x_axis]),
         y=alt.Y("life_expectancy", title="Life Expectancy", scale=alt.Scale(zero=False)),
-        color=alt.Color(color_axis, title = None, legend=alt.Legend(orient="top")),
+        color=alt.Color(color_axis, title = None, legend=alt.Legend(orient="bottom")),
         #size=alt.Value("5"),
         tooltip=["country"],
     ).properties(
-            width=800, height=380
-        ).configure_axis(
-            labelFontSize=15,
-            titleFontSize=18,
-        ).configure_legend(
-            labelFontSize=15
-        )
+        width=900,
+        height=400
+    ).configure_axis(
+        labelFontSize=10,
+        titleFontSize=14,
+    ).configure_legend(
+        labelFontSize=12
+    )
     return plot_multi_dim.to_html()
 
 if __name__ == '__main__':
