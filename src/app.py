@@ -72,7 +72,15 @@ sidebar = html.Div(
 
 content = dbc.Container([
     dbc.Row([
-        dbc.Col(),
+        dbc.Col(html.Iframe(id='map_graph',
+                            style={"height":"450px", "width":"100%", "display":'flex', 'scrolling':'no', 
+                                    'overflow':'hidden',"seamless":"seamless"},
+                            width=500
+                            ),
+                style={'width': '100%', 'border-width': '0', 'overflow':'hidden', "display":'flex', 'scrolling':'no', 
+                        },
+                md=7, 
+                ),
         dbc.Col([html.H5('Year-wise Trend', 
                     style={'background-color':'#E8E8E8', 'font-weight':'900', 'display': "flex", 'justify-content': "center",
                             'align-items': "center", 'width': 180, 'height': 50, 'text-align':"center",},
@@ -129,7 +137,7 @@ content = dbc.Container([
                                                             'margin-left':"0.5em",
                                                 }
                                             ))
-                    ], no_gutters=True,),
+                    ], no_gutters=True, ),
                     dbc.Row(
                         html.Iframe(
                                     id="widget_o_year_wise_trend",
@@ -137,8 +145,9 @@ content = dbc.Container([
                                     )
                             )
                     ],
-                    md = 6),
+                    md = 5,),
     ]),
+    html.Br(),
     dbc.Row([
         dbc.Col([
             html.H5(
@@ -229,7 +238,7 @@ content = dbc.Container([
                 )
             ])
 
-        ]),
+        ], ),
         dbc.Col([
             html.H5('Country vs Continent vs Worldwide', 
                     style={'background-color':'#E8E8E8', 'font-weight':'900', 'width':365, 'display': "flex", 'justify-content': "center",
@@ -243,7 +252,7 @@ content = dbc.Container([
                                 style={'verticalAlign':"bottom",
                                        'font-weight': 'bold',
                                         'font-size': '14px',
-                                }, 
+                                }, md=3,
                                 ),
                         dbc.Col(
                             dcc.Dropdown(
@@ -266,9 +275,9 @@ content = dbc.Container([
                             dbc.Row(html.Iframe(
                                 id='comparison_trend',
                                 style={'border-width': '0', 'width': '100vw', 'height': '100vh'}),)
-        ], md=6),
+        ], md=6,),
     ])
-    ], style=CONTENT_STYLE)
+    ], style=CONTENT_STYLE,)
 
 app.layout = html.Div([sidebar, content])
 
@@ -304,7 +313,7 @@ def plot_altair(country, value):
     chart_comparison = alt.Chart(temp[(temp["year"] <= chosen_ending_year) & (temp["year"] >= chosen_starting_year)]).mark_line().encode(
         x=alt.X("year:N", axis=alt.Axis(labelAngle=45), title = "Year"),
         y=alt.Y("mean(life_expectancy)", title = "Life Expectancy", scale= alt.Scale(zero = False)),
-        color=alt.Color("label", title = None)
+        color=alt.Color("label", title = None, legend=alt.Legend(orient="top"))
     ).properties(
             width=350
         ).configure_axis(
@@ -341,9 +350,9 @@ def plot_year_wise_trend(year_range, continent, color_axis):
         .encode(
             alt.X("year:N", axis=alt.Axis(labelAngle=45), title="Year"),
             y=alt.Y("mean(life_expectancy)", scale=alt.Scale(zero=False), title="Mean Life Expectancy"),
-            color=alt.Color(color_axis, title = None)
+            color=alt.Color(color_axis, title = None, )
         ).properties(
-            width=350
+            width=280
         ).configure_axis(
             labelFontSize=10,
             titleFontSize=12,
@@ -366,7 +375,7 @@ def plot_multi_dim_analysis(year_range, x_axis, color_axis):
     ).mark_circle(size=100).encode(
         x=alt.X(x_axis),
         y=alt.Y("life_expectancy", title="Life Expectancy", scale=alt.Scale(zero=False)),
-        color=alt.Color(color_axis, title = None),
+        color=alt.Color(color_axis, title = None, legend=alt.Legend(orient="top")),
         #size=alt.Value("5"),
         tooltip=["country"],
     ).properties(
@@ -379,7 +388,38 @@ def plot_multi_dim_analysis(year_range, x_axis, color_axis):
         )
     return plot_multi_dim.to_html()
 
+@app.callback(
+    Output('map_graph', 'srcDoc'),
+    Input('widget_g_year', 'value'),
+)
+def plot_worldmap(year_range):
+    df1 = dataset_df.copy()
+    world = data.world_110m()
+    world_map = alt.topo_feature(data.world_110m.url, "countries")
+    chosen_ending_year = year_range[1]
 
+    country_ids = pd.read_csv(
+        "https://raw.github.ubc.ca/MDS-2020-21/DSCI_532_viz-2_students/master/data/country-ids.csv?token=AAAANV4AYXPDYXASWHWFLDLACHCJK"
+    )
+    df1 = pd.merge(df1, country_ids, left_on="country", right_on="name").iloc[:, :-1]
+    df1 = df1[df1["year"] == chosen_ending_year]
+
+    map_click = alt.selection_multi()
+    chart = (
+        alt.Chart(world_map)
+        .mark_geoshape()
+        .transform_lookup(
+            lookup="id", from_=alt.LookupData(df1, "id", ["life_expectancy", "country"])
+        )
+        .encode(
+            tooltip=["country:N", "life_expectancy:Q"],
+            color="life_expectancy:Q",
+            opacity=alt.condition(map_click, alt.value(1), alt.value(0.2)),
+        )
+        .add_selection(map_click)
+        .project("equalEarth", scale=90)
+    )
+    return chart.to_html()
     
 
 if __name__ == '__main__':
