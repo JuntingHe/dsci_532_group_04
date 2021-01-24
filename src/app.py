@@ -174,7 +174,7 @@ def plot_worldmap(year_range):
         )
         .add_selection(map_click)
         .project("equalEarth", scale=140)
-        .properties(width = 700, height = 470,)
+        .properties(width = 625, height = 445,)
         .configure_view(strokeWidth=0)
     )
     return chart.to_html()
