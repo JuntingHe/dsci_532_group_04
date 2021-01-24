@@ -2,6 +2,9 @@ Life Expectancy Indicator
 ================
 MDS DSCI 532 Group 04
 
+## Heroku 
+[Life Expectancy](https://life-expectancy-indicator.herokuapp.com/)
+
 ## App Description
 
 The landing page of the dashboard should have three global filters at
