@@ -155,7 +155,7 @@ def plot_worldmap(year_range):
     chosen_ending_year = year_range[1]
 
     country_ids = pd.read_csv(
-        "https://raw.github.ubc.ca/MDS-2020-21/DSCI_532_viz-2_students/master/data/country-ids.csv?token=AAAANV4AYXPDYXASWHWFLDLACHCJK"
+        "data/processed/country-ids.csv"
     )
     df1 = pd.merge(df1, country_ids, left_on="country", right_on="name").iloc[:, :-1]
     df1 = df1[df1["year"] == chosen_ending_year]
