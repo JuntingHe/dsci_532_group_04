@@ -37,7 +37,7 @@ card = dbc.Card(
         ),
         # dbc.CardFooter("This is the footer"),
     ],
-    style={"width": "18rem", 'background-color':'#f8f9fa',},
+    style={"width": "16rem", "height":"100rem", 'background-color':'#f8f9fa',},
 )
 
 
@@ -76,7 +76,7 @@ trend_card = dbc.Card([
             dbc.Row([dbc.Col(status_widget), dbc.Col(status_dropdown)]),
             html.Iframe(id="widget_o_year_wise_trend", width = 500, height = 500, style={'border-width': '0',})
         ]),
-    ],style={"width":550, "height":580},)
+    ],style={"width":400, "height":580},)
 
 country_widget = html.P('Select a Country:', className="card-text", style=widget_style)
 country_dropdown = dcc.Dropdown(id='country-l-widget',
@@ -94,7 +94,7 @@ comparison_card = dbc.Card([
             html.Br(),
             html.Iframe(id="comparison_trend", width = 500, height = 500, style={'border-width': '0',})
         ]),
-    ],style={"width":550, "height":580},)
+    ],style={"width":400, "height":580},)
 
 axis_widget = html.P('Select X-Axis:', className="card-text", style=widget_style)
 axis_dropdown = dcc.Dropdown(id='widget_l_multi_dim_x_axis',
@@ -131,17 +131,28 @@ effect_card = dbc.Card([
     dbc.CardBody([
             dbc.Row([dbc.Col(axis_widget), dbc.Col(axis_dropdown), dbc.Col(color_widget), dbc.Col(color_dropdown),]),
             html.Br(),
-            html.Iframe(id="widget_o_multi_dim_analysis", width = 1000, height = 500, style={'border-width': '0',})
+            html.Iframe(id="widget_o_multi_dim_analysis", width = 800, height = 500, style={'border-width': '0',})
         ]),
     ],)
 
 
 app.layout = dbc.Container([
-    dbc.Row([card, world_map]),
-    html.Br(),
-    dbc.CardDeck([trend_card, comparison_card]),
-    html.Br(),
-    dbc.CardDeck(effect_card)])
+    dbc.Row([
+        dbc.Col(card, md=3),
+        dbc.Col([
+            dbc.Row(world_map, align="center"),
+            html.Br(),
+            dbc.Row([dbc.Col(trend_card, md=6), dbc.Col(comparison_card, md=6)], align="center"),
+            html.Br(),
+            dbc.Row(effect_card, align="center"),
+        ], md=9)
+    ]),
+    # dbc.Row([card, world_map]),
+    # html.Br(),
+    # dbc.CardDeck([trend_card, comparison_card]),
+    # html.Br(),
+    # dbc.CardDeck(effect_card)
+    ], fluid=True)
 
 
 @app.callback(
@@ -174,7 +185,7 @@ def plot_worldmap(year_range):
         )
         .add_selection(map_click)
         .project("equalEarth", scale=140)
-        .properties(width = 700, height = 470,)
+        .properties(width = 625, height = 445,)
         .configure_view(strokeWidth=0)
     )
     return chart.to_html()
