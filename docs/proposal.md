@@ -79,6 +79,8 @@ the dashboard. The dashboard should enable users to perform
 multi-dimensional analysis to understand factors affecting life
 expectancy.
 
+This dashboard will enable her team to get a quick shapshot of average life expectancy of all the countries for a given range of years. The dashboard will also enable users to analyse year-wise average life expectancy bu continent or status. Additionally the users can compare year-wise average life expectancy for any country with its continent and rest of the world. Lastly, this dashboard will allow users to explore how other factors like GDP, population etc affects life expectancy.
+
 ## Section 4: Sketch of the App
 
 <img src="../figures/labelled_sketch.png" width="6526" />
